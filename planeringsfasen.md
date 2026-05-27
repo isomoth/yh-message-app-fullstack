@@ -58,7 +58,7 @@ Tabellen visar hur funktioner, risker/hotscenarier, STRIDE-kategorier och säker
 #### Hot: Dataintrång eller obehörig åtkomst (Elevation of Privilege och Repudiation)
 
 - Påverkan:
-  - Manipulation av hur koden styrs från serversidan
+  - Manipulation av hur koden styrs från serversidan.
   - Lateral movement för att komma åt databasen.
   - Svårt att ta reda på vem som gjort det om inte loggar finns (repudiation).
 - Orsak:
@@ -87,36 +87,6 @@ Tabellen visar hur funktioner, risker/hotscenarier, STRIDE-kategorier och säker
 
 Varje säkerhetskrav har tilldelats ett unikt **SR-ID** (Security Requirement) för att skapa spårbarhet (traceability) genom hela utvecklingsprocessen. Metoden underlättar sammankopplingen av säkerhetskrav, identifierade hot, STRIDE-kategorier samt implementering och kodgranskning under projektets gång. Vi har också formulerat kraven som **User Stories** för att underlätta kommunikationen med utvecklarna, enligt best practice inom IT-branschen.
 
-Vi har listat flertalet säkerhetsåtgärder/kravspecifikationer som är relevanta för webbapplikationen (se tabellerna längre ner), men fokuserar på fem stycken vi bedömt som mest kritiska inför presentationen i planeringsfasen.
+Ytterligare säkerhetskrav som identifierats under arbetet har exkluderats från denna sammanfattning för att hålla fokus på de fem prioriterade säkerhetskraven.
 
 ![image info](assets/säkerhetskrav.png)
-
-### Detaljerad lista - Säkerhetskrav
-
-#### Frontend
-
-| SR   | SÄKERHETSKRAV                                                                    | STRIDE |
-| ---- | -------------------------------------------------------------------------------- | ------ |
-| SR-1 | Användaren ska bara kunna skriva max. X tecken på respektive inmatningsfält      | T      |
-| SR-2 | Användaren ska bara kunna skapa ett användarnamn på max. X tecken                | T      |
-| SR-3 | Användaren ska bara kunna skriva godkända datatyper på respektive inmatningsfält | T & D  |
-| SR-4 | Användaren ska bara kunna skriva tillåtna tecken                                 | T      |
-| SR-5 | Användaren ska inte kunna se känslig information via felmeddelanden              | I      |
-| SR-6 | Användaren behöver logga in för att skapa, redigera och ta bort meddelanden      | S & R  |
-
-#### Backend
-
-| SR   | SÄKERHETSKRAV                                                        | STRIDE  |
-| ---- | -------------------------------------------------------------------- | ------- |
-| SR-7 | Användare ska inte kunna skicka för många anrop från samma IP-adress | D       |
-| SR-8 | Användaren ska inte kunna försöka logga in för många gånger          | S & D   |
-| SR-9 | Användaren ska kontrolleras för behörighet vid varje request         | S, E, R |
-
-#### Databas
-
-| SR    | SÄKERHETSKRAV                                              | STRIDE   |
-| ----- | ---------------------------------------------------------- | -------- |
-| SR-10 | Användarens lösenord ska lagras skyddade i databasen       | I & S    |
-| SR-11 | Användaren ska inte kunna se lösenord i klartext           | I        |
-| SR-12 | Användaren ska inte ha direkt klientåtkomst till databasen | E, R & I |
-| SR-13 | Databasen ska ha minst en säkerhetskopia                   | I & T    |
