@@ -6,7 +6,7 @@ Carolina Hindocha, Josefin Lindgren, Isabel González
 
 Vi har valt att behålla det förenklade dataflödesdiagrammet på global nivå, då applikationens arkitektur inte kräver en komplex design. Browser och frontend visas i skissen som klientdelen utanför tillitszonen, medan backend/API och databas ligger inom vårt system. Backend och API hålls ihop eftersom API-endpoints och routing är en del av Express-backendens logik, inte en separat gateway eller tjänst.
 
-![image info](systemskiss-hotmodellering.png)
+![image info](assets/systemskiss-hotmodellering.png)
 
 ## Hotmodellering (STRIDE)
 
@@ -27,11 +27,11 @@ Vi har utgått från den förenklade Rapid Threat-modellen där komponenter för
 För att konkretisera hotmodelleringen bröts systemet ner i abuse cases kopplade till respektive systemkomponent. Fokus låg på de delar av applikationen som utvecklas och kan säkerhetskravställas (frontend, backend/API och databas) medan browsern och klientmiljön betraktades som delar utanför systemets tillitszon (trust boundary).
 Tabellen visar hur funktioner, risker/hotscenarier, STRIDE-kategorier och säkerhetskrav hänger ihop genom systemets olika delar. Detta skapade sedan grunden för att identifiera och prioritera de mest kritiska säkerhetsriskerna och potentiella hoten mot systemet.
 
-![image info](abuse-case-flöden.png)
+![image info](assets/abuse-case-flöden.png)
 
 ## Potentiella hot utifrån kritiska säkerhetsrisker
 
-![image info](potentiella-hot.png)
+![image info](assets/potentiella-hot.png)
 
 ## Potentiella hot - Detaljerad beskrivning
 
@@ -89,7 +89,7 @@ Varje säkerhetskrav har tilldelats ett unikt **SR-ID** (Security Requirement) f
 
 Vi har listat flertalet säkerhetsåtgärder/kravspecifikationer som är relevanta för webbapplikationen (se tabellerna längre ner), men fokuserar på fem stycken vi bedömt som mest kritiska inför presentationen i planeringsfasen.
 
-![image info](säkerhetskrav.png)
+![image info](assets/säkerhetskrav.png)
 
 ### Detaljerad lista - Säkerhetskrav
 
@@ -114,8 +114,9 @@ Vi har listat flertalet säkerhetsåtgärder/kravspecifikationer som är relevan
 
 #### Databas
 
-| SR    | SÄKERHETSKRAV                                                                      | STRIDE   |
-| ----- | ---------------------------------------------------------------------------------- | -------- |
-| SR-10 | Användaren ska inte kunna se lösenord i klartext                                   | I & S    |
-| SR-11 | Användaren ska inte ha direkt klientåtkomst till databasen                         | E, R & I |
-| SR-12 | Det ska finnas en säkerhetskopia av databasen ifall användaren förstör/raderar den | I & T    |
+| SR    | SÄKERHETSKRAV                                              | STRIDE   |
+| ----- | ---------------------------------------------------------- | -------- |
+| SR-10 | Användarens lösenord ska lagras skyddade i databasen       | I & S    |
+| SR-11 | Användaren ska inte kunna se lösenord i klartext           | I        |
+| SR-12 | Användaren ska inte ha direkt klientåtkomst till databasen | E, R & I |
+| SR-13 | Databasen ska ha minst en säkerhetskopia                   | I & T    |
