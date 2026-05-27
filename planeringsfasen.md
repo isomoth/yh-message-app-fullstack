@@ -14,35 +14,54 @@ Vi har utgått från den förenklade Rapid Threat Modeling-modellen där kompone
 
 - **Browser och frontend har värde 0 eftersom de ligger utanför vår tillitszon.** Större påverkan på systemet vid kompromettering/driftstörning eftersom backend hanterar logik, API-routing, behörighet och bearbetningen av lagrad data. Darför gav vi backenden ett initialt högt värde (3). Men eftersom den utgör ingångspunkt till tillitszonen, innebär det enligt modellen att backend/API får värde 1. Det betyder inte att den inte kräver striktare säkerhetsåtgärder, utan att den här aspekten inte fångas fullt ut av de förenklade reglerna i den här skissen.
 
-- **Dataflödet mellan komponenter med olika skysddsvärde**
+- Utifrån mallen har vi främst kunnat placera **Tampering och Information Disclosure på dataflöden mellan komponenter med olika skyddsvärde**, samt identifierat den högsta risknivån vid **databasen, som fått värde 5**.
+
+- Vi har placerat **Spoofing och Denial of Service enligt mallens zonregler**. Vid backend/API förekommer **ESRD**: Exempelvis skulle loginförsök eller överbelastning mot den här delen av systemet kunna vara realistiska hot.
+
+- Vi har också diskuterat att både request- och responseflöden kan vara utsatta för manipulation. Därför kan **Tampering vara relevant både när data skickas in till systemet och när data returneras**, (särskilt om svaret påverkar vad användaren ser och gör), men detta fångades inte enligt modelleringens regler. Vi kompletterade därför med ett fördjupat säkerhetsresonemang kring abuse cases och hot mot systemets olika komponenter.
+
+- Sammanfattningsvis har vi använt mallen som stöd för en första prioritering, men kompletterar med manuellt resonemang kring faktiska hot som modellen inte fångar perfekt. **Mallen hjälper oss prioritera, men den ersätter inte manuellt säkerhetsresonemang.**
+
+## Abuse case-flöden kopplat till systemkomponeter
+
+För att konkretisera hotmodelleringen bröts systemet ner i abuse cases kopplade till respektive systemkomponent. Fokus låg på de delar av applikationen som utvecklas och kan säkerhetskravställas – frontend, backend/API och databas – medan browsern och klientmiljön betraktades som delar utanför systemets tillitszon (trust boundary).
+Tabellen visar hur funktioner, risker/hotscenarier, STRIDE-kategorier och säkerhetskrav hänger ihop genom systemets olika delar. Detta skapade sedan grunden för att identifiera och prioritera de mest kritiska säkerhetsriskerna och potentiella hoten mot systemet.
+
+![image info](abuse-case-flöden.png)
+
+## Potentiella hot utifrån kritiska säkerhetsrisker
+
+![image info](potentiella-hot.png)
 
 ### Databas (MongoDB)
 
 #### Hot: Kontoövertagande efter exponering (Information Disclosure, Spoofing)
 
-**Påverkan:**
-Skanningar från antagonister kan hitta en exponerad databas och försöka logga in, får åtkomst till funktioner, data eller användares information.
+- **Påverkan:**
+  Skanningar från antagonister kan hitta en exponerad databas och försöka logga in, får åtkomst till funktioner, data eller användares information.
 
-**Orsak:**
-Öppna portar som exponerar databasen mot offentliga nätverk.
+- **Orsak:**
+  Öppna portar som exponerar databasen mot offentliga nätverk.
 
 #### Hot: Dataläckage eller dataförlust (Information Disclosure):
 
-**Påverkan:**
-Komprometterad data kanutnyttjas till ransomware-attacker med double-extorsion eller säljas på darkweb.
+- **Påverkan:**
+  Komprometterad data kanutnyttjas till ransomware-attacker med double-extorsion eller säljas på darkweb.
 
-**Orsak:**
-Default-inställningarna på MongoDB kräver inte autentisering från användarna.
+- **Orsak:**
+  Default-inställningarna på MongoDB kräver inte autentisering från användarna.
 
 ## Säkerhetskrav
 
 Varje säkerhetskrav har tilldelats ett unikt **SR-ID** (Security Requirement) för att skapa spårbarhet (traceability) genom hela utvecklingsprocessen. Metoden underlättar sammankopplingen av säkerhetskrav, identifierade hot, STRIDE-kategorier samt implementering och kodgranskning under projektets gång. Vi har också formulerat kraven som **User Stories** för att underlätta kommunikationen med utvecklarna, enligt best practice inom IT-branschen.
 
-Vi har listat flertalet säkerhetsåtgärder/kravspecifikationer som är relevanta för webbapplikationen, men fokuserar på fem stycken vi bedömt som mest kritiska inför presentationen i planeringsfasen.
+Vi har listat flertalet säkerhetsåtgärder/kravspecifikationer som är relevanta för webbapplikationen (se tabellerna längre ner), men fokuserar på fem stycken vi bedömt som mest kritiska inför presentationen i planeringsfasen.
 
 ![image info](säkerhetskrav.png)
 
-### Frontend
+### Detaljerad lista - Säkerhetskrav
+
+#### Frontend
 
 | SR   | SÄKERHETSKRAV                                                                    | STRIDE |
 | ---- | -------------------------------------------------------------------------------- | ------ |
@@ -53,7 +72,7 @@ Vi har listat flertalet säkerhetsåtgärder/kravspecifikationer som är relevan
 | SR-5 | Användaren ska inte kunna se känslig information via felmeddelanden              | I      |
 | SR-6 | Användaren behöver logga in för att skapa, redigera och ta bort meddelanden      | S & R  |
 
-### Backend
+#### Backend
 
 | SR   | SÄKERHETSKRAV                                                        | STRIDE  |
 | ---- | -------------------------------------------------------------------- | ------- |
@@ -61,7 +80,7 @@ Vi har listat flertalet säkerhetsåtgärder/kravspecifikationer som är relevan
 | SR-8 | Användaren ska inte kunna försöka logga in för många gånger          | S & D   |
 | SR-9 | Användaren ska kontrolleras för behörighet vid varje request         | S, E, R |
 
-## Databas
+#### Databas
 
 | SR    | SÄKERHETSKRAV                                                                      | STRIDE   |
 | ----- | ---------------------------------------------------------------------------------- | -------- |
