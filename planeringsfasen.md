@@ -87,6 +87,6 @@ Tabellen visar hur funktioner, risker/hotscenarier, STRIDE-kategorier och säker
 
 Varje säkerhetskrav har tilldelats ett unikt **SR-ID** (Security Requirement) för att skapa spårbarhet (traceability) genom hela utvecklingsprocessen. Metoden underlättar sammankopplingen av säkerhetskrav, identifierade hot, STRIDE-kategorier samt implementering och kodgranskning under projektets gång. Vi har också formulerat kraven som **User Stories** för att underlätta kommunikationen med utvecklarna, enligt best practice inom IT-branschen.
 
-Ytterligare säkerhetskrav som identifierats under arbetet har exkluderats från denna sammanfattning för att hålla fokus på de fem prioriterade säkerhetskraven.
+(Ytterligare säkerhetskrav som identifierats under arbetet har exkluderats från denna sammanfattning för att hålla fokus på de fem prioriterade säkerhetskraven.)
 
 ![image info](assets/säkerhetskrav.png)
