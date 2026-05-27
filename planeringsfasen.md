@@ -2,8 +2,6 @@
 
 ## Systemskiss - Motivering
 
-_(För mer information och detaljerade motiveringar se sliden i filen "YH - Message app - DEMO-Maj27.pdf" som ligger i rooten av den här repositoryn)._
-
 Vi har valt att behålla det förenklade dataflödesdiagrammet på global nivå, då applikationens arkitektur inte kräver en komplex design. Browser och frontend visas i skissen som klientdelen utanför tillitszonen, medan backend/API och databas ligger inom vårt system. Backend och API hålls ihop eftersom API-endpoints och routing är en del av Express-backendens logik, inte en separat gateway eller tjänst.
 
 ![image info](systemskiss-hotmodellering.png)
@@ -32,6 +30,20 @@ Tabellen visar hur funktioner, risker/hotscenarier, STRIDE-kategorier och säker
 ## Potentiella hot utifrån kritiska säkerhetsrisker
 
 ![image info](potentiella-hot.png)
+
+## Potentiella hot - Detaljerad beskrivning
+
+### Backend/API
+
+#### Hot: Dataintrång eller obehörig åtkomst (Elevation of Privilege och Repudiation)
+
+- Påverkan:
+  - Manipulation av hur koden styrs från serversidan
+  - Lateral movement för att komma åt databasen.
+  - Svårt att ta reda på vem som gjort det om inte loggar finns (repudiation).
+- Orsak:
+  - Bristfällig åtkomstkonfiguration (antal inloggningsförsök och API-anrop, JWT Token).
+  - Ingen konfiguration för loggar.
 
 ### Databas (MongoDB)
 
