@@ -6,7 +6,7 @@ _(För mer information och detaljerade motiveringar se sliden i filen "YH - Mess
 
 Vi har valt att behålla det förenklade dataflödesdiagrammet på global nivå, då applikationens arkitektur inte kräver en komplex design. Browser och frontend visas i skissen som klientdelen utanför tillitszonen, medan backend/API och databas ligger inom vårt system. Backend och API hålls ihop eftersom API-endpoints och routing är en del av Express-backendens logik, inte en separat gateway eller tjänst.
 
-![image](./planeringsfasen.md)
+![image info](systemskiss-hotmodellering.png)
 
 ## Hotmodellering (STRIDE)
 
