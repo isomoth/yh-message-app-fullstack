@@ -16,7 +16,33 @@ Vi har utgått från den förenklade Rapid Threat Modeling-modellen där kompone
 
 - **Dataflödet mellan komponenter med olika skysddsvärde**
 
+### Databas (MongoDB)
+
+#### Hot: Kontoövertagande efter exponering (Information Disclosure, Spoofing)
+
+**Påverkan:**
+Skanningar från antagonister kan hitta en exponerad databas och försöka logga in, får åtkomst till funktioner, data eller användares information.
+
+**Orsak:**
+Öppna portar som exponerar databasen mot offentliga nätverk.
+
+#### Hot: Dataläckage eller dataförlust (Information Disclosure):
+
+**Påverkan:**
+Komprometterad data kanutnyttjas till ransomware-attacker med double-extorsion eller säljas på darkweb.
+
+**Orsak:**
+Default-inställningarna på MongoDB kräver inte autentisering från användarna.
+
 ## Säkerhetskrav
+
+Varje säkerhetskrav har tilldelats ett unikt **SR-ID** (Security Requirement) för att skapa spårbarhet (traceability) genom hela utvecklingsprocessen. Metoden underlättar sammankopplingen av säkerhetskrav, identifierade hot, STRIDE-kategorier samt implementering och kodgranskning under projektets gång. Vi har också formulerat kraven som **User Stories** för att underlätta kommunikationen med utvecklarna, enligt best practice inom IT-branschen.
+
+Vi har listat flertalet säkerhetsåtgärder/kravspecifikationer som är relevanta för webbapplikationen, men fokuserar på fem stycken vi bedömt som mest kritiska inför presentationen i planeringsfasen.
+
+![image info](säkerhetskrav.png)
+
+### Frontend
 
 | SR   | SÄKERHETSKRAV                                                                    | STRIDE |
 | ---- | -------------------------------------------------------------------------------- | ------ |
@@ -26,3 +52,19 @@ Vi har utgått från den förenklade Rapid Threat Modeling-modellen där kompone
 | SR-4 | Användaren ska bara kunna skriva tillåtna tecken                                 | T      |
 | SR-5 | Användaren ska inte kunna se känslig information via felmeddelanden              | I      |
 | SR-6 | Användaren behöver logga in för att skapa, redigera och ta bort meddelanden      | S & R  |
+
+### Backend
+
+| SR   | SÄKERHETSKRAV                                                        | STRIDE  |
+| ---- | -------------------------------------------------------------------- | ------- |
+| SR-7 | Användare ska inte kunna skicka för många anrop från samma IP-adress | D       |
+| SR-8 | Användaren ska inte kunna försöka logga in för många gånger          | S & D   |
+| SR-9 | Användaren ska kontrolleras för behörighet vid varje request         | S, E, R |
+
+## Databas
+
+| SR    | SÄKERHETSKRAV                                                                      | STRIDE   |
+| ----- | ---------------------------------------------------------------------------------- | -------- |
+| SR-10 | Användaren ska inte kunna se lösenord i klartext                                   | I & S    |
+| SR-11 | Användaren ska inte ha direkt klientåtkomst till databasen                         | E, R & I |
+| SR-12 | Det ska finnas en säkerhetskopia av databasen ifall användaren förstör/raderar den | I & T    |
