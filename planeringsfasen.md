@@ -1,5 +1,7 @@
 # Inlämning 1 - Planeringsfasen
 
+Carolina Hindocha, Josefin Lindgren, Isabel González
+
 ## Systemskiss - Motivering
 
 Vi har valt att behålla det förenklade dataflödesdiagrammet på global nivå, då applikationens arkitektur inte kräver en komplex design. Browser och frontend visas i skissen som klientdelen utanför tillitszonen, medan backend/API och databas ligger inom vårt system. Backend och API hålls ihop eftersom API-endpoints och routing är en del av Express-backendens logik, inte en separat gateway eller tjänst.
@@ -8,9 +10,9 @@ Vi har valt att behålla det förenklade dataflödesdiagrammet på global nivå,
 
 ## Hotmodellering (STRIDE)
 
-Vi har utgått från den förenklade Rapid Threat Modeling-modellen där komponenter först klassas utifrån om de tillhör vårt system och hur skyddsvärda de är:
+Vi har utgått från den förenklade Rapid Threat-modellen där komponenter först klassas utifrån om de tillhör vårt system och hur skyddsvärda de är:
 
-- **Browser och frontend har värde 0 eftersom de ligger utanför vår tillitszon.** Större påverkan på systemet vid kompromettering/driftstörning eftersom backend hanterar logik, API-routing, behörighet och bearbetningen av lagrad data. Darför gav vi backenden ett initialt högt värde (3). Men eftersom den utgör ingångspunkt till tillitszonen, innebär det enligt modellen att backend/API får värde 1. Det betyder inte att den inte kräver striktare säkerhetsåtgärder, utan att den här aspekten inte fångas fullt ut av de förenklade reglerna i den här skissen.
+- **Browser och frontend har värde 0 eftersom de ligger utanför vår tillitszon.** Större påverkan på systemet vid kompromettering/driftstörning eftersom backend hanterar logik, API-routing, behörighet och bearbetningen av lagrad data. Darför gav vi backenden ett initialt högt värde (3). Men eftersom den utgör ingångspunkten till tillitszonen, innebär det enligt modellen att backend/API får värde 1. Det betyder inte att den inte kräver striktare säkerhetsåtgärder, utan att den här aspekten inte fångas fullt ut av de förenklade reglerna i den här skissen.
 
 - Utifrån mallen har vi främst kunnat placera **Tampering och Information Disclosure på dataflöden mellan komponenter med olika skyddsvärde**, samt identifierat den högsta risknivån vid **databasen, som fått värde 5**.
 
@@ -22,7 +24,7 @@ Vi har utgått från den förenklade Rapid Threat Modeling-modellen där kompone
 
 ## Abuse case-flöden kopplat till systemkomponeter
 
-För att konkretisera hotmodelleringen bröts systemet ner i abuse cases kopplade till respektive systemkomponent. Fokus låg på de delar av applikationen som utvecklas och kan säkerhetskravställas – frontend, backend/API och databas – medan browsern och klientmiljön betraktades som delar utanför systemets tillitszon (trust boundary).
+För att konkretisera hotmodelleringen bröts systemet ner i abuse cases kopplade till respektive systemkomponent. Fokus låg på de delar av applikationen som utvecklas och kan säkerhetskravställas (frontend, backend/API och databas) medan browsern och klientmiljön betraktades som delar utanför systemets tillitszon (trust boundary).
 Tabellen visar hur funktioner, risker/hotscenarier, STRIDE-kategorier och säkerhetskrav hänger ihop genom systemets olika delar. Detta skapade sedan grunden för att identifiera och prioritera de mest kritiska säkerhetsriskerna och potentiella hoten mot systemet.
 
 ![image info](abuse-case-flöden.png)
@@ -32,6 +34,24 @@ Tabellen visar hur funktioner, risker/hotscenarier, STRIDE-kategorier och säker
 ![image info](potentiella-hot.png)
 
 ## Potentiella hot - Detaljerad beskrivning
+
+### Frontend (React + Vite)
+
+#### Hot: Systemhaveri eller datamanipulation (Denial of Service och Tampering)
+
+- Påverkan:
+  - Manipulerad eller osanerad användarinput kan orsaka systemfel och manipulation av data samt att systemet kraschar eller beter sig oväntat.
+- Orsak:
+  - Frontend validerar eller begränsar inte användarinput tillräckligt, vilket möjliggör manipulerade requests, XSS eller överbelastning via stora inmatningar.
+
+### Frontend + Backend
+
+#### Hot: Informationsläckage eller obehörig åtkomst (Information Disclosure och Spoofing)
+
+- Påverkan:
+  - Angripare kan få åtkomst till känslig information genom felmeddelanden eller API-svar och kan manipulera data eller kringgå autentisering och behörighetskontroller.
+- Orsak:
+  - Bristfällig validering, osanerad användarinput eller otillräckliga autentiserings- och auktoriseringskontroller mellan frontend och backend gör att systemet visar information som användaren inte ska se.
 
 ### Backend/API
 
@@ -55,7 +75,7 @@ Tabellen visar hur funktioner, risker/hotscenarier, STRIDE-kategorier och säker
 - **Orsak:**
   Öppna portar som exponerar databasen mot offentliga nätverk.
 
-#### Hot: Dataläckage eller dataförlust (Information Disclosure):
+#### Hot: Dataläckage eller dataförlust (Information Disclosure)
 
 - **Påverkan:**
   Komprometterad data kanutnyttjas till ransomware-attacker med double-extorsion eller säljas på darkweb.
