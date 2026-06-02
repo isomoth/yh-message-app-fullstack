@@ -138,7 +138,7 @@ app.get("/messages", async (req, res) => {
     res.status(500).json({ message: "Could not fetch messages" })
   }
 })
-// SR-8: Kravet uppfylls
+// SR-8: Kravet uppfylls när det gäller att skapa ett meddelande
 app.post("/messages", authenticateUser, async (req, res) => {
   const message = new Message({ message: req.body.message, user: req.user._id })
   try {
@@ -167,7 +167,7 @@ app.patch("/messages/:id", authenticateUser, async (req, res) => {
     res.status(400).json({ error: "Could not update message" })
   }
 })
-
+// SR-8: Kravet uppfylls inte när det gäller att radera ett meddelande. Det går att göra oavsett om man är inloggad eller inte. 
 app.delete("/messages/:id", async (req, res) => {
   if (!isValidId(req.params.id)) return res.status(400).json({ error: "Invalid message ID" })
   try {
