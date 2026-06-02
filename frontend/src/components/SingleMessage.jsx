@@ -47,7 +47,7 @@ export const SingleMessage = ({ message, user, onUnauthorized, fetchPosts }) => 
       const data = await res.json()
 
       if (data.error) {
-        console.log(data, '<-- Det här felmeddelandet från backend ska inte visas explicit') // SR-4: Visar explicit vad som gick fel hos servern
+        console.log(data) // SR-4: Visar explicit vad som gick fel hos servern
         setEditError(data.error) // SR-4: Visar felmeddelandet från backend explicit
         return
       }
