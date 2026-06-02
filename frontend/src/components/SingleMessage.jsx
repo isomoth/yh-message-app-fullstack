@@ -47,8 +47,8 @@ export const SingleMessage = ({ message, user, onUnauthorized, fetchPosts }) => 
       const data = await res.json()
 
       if (data.error) {
-        console.log(data)
-        setEditError(data.error)
+        console.log(data) // SR-4: Visar känslig serverresponse, behöver reproduceras
+        setEditError(data.error) // SR-4: Visar känslig data på felmeddelandet, behöver reproduceras
         return
       }
 

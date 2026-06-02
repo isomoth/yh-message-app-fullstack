@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 app.post("/register", async (req, res) => {
   try {
     const { email, password, username } = req.body
-
+    // SR 1 - Max längd
     if (!username || username.trim().length < 2) {
       return res.status(400).json({ success: false, message: "Username must be at least 2 characters" })
     }
@@ -44,7 +44,7 @@ app.post("/register", async (req, res) => {
         message: `A user with this ${field} already exists`
       })
     }
-
+// SR-9. Kravet uppfylls, lösenord sparas inte i klartext
     const hashedPassword = await bcrypt.hash(password, 10)
     const user = new User({ username: username.trim(), email, password: hashedPassword })
     await user.save()
@@ -52,6 +52,7 @@ app.post("/register", async (req, res) => {
     const accessToken = jwt.sign(
       { userId: user._id, username: user.username },
       process.env.JWT_SECRET,
+      // Övrig finding: För lång expiration time
       { expiresIn: "2h" }
     )
 
@@ -92,6 +93,7 @@ app.post("/login", async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({
         success: false,
+        // SR-4
         message: "Password is incorrect",
         response: null,
       })
@@ -100,6 +102,7 @@ app.post("/login", async (req, res) => {
     const accessToken = jwt.sign(
       { userId: user._id, username: user.username },
       process.env.JWT_SECRET,
+      // För lång expiration time
       { expiresIn: "2h" }
     )
 
@@ -120,7 +123,7 @@ app.post("/login", async (req, res) => {
     })
   }
 })
-
+// SR-10: Kravet uppfylls. Validering för databasen via server.js (backend)
 const isValidId = (id) => mongoose.Types.ObjectId.isValid(id)
 
 app.get("/messages", async (req, res) => {
@@ -135,7 +138,7 @@ app.get("/messages", async (req, res) => {
     res.status(500).json({ message: "Could not fetch messages" })
   }
 })
-
+// SR-8: Kravet uppfylls
 app.post("/messages", authenticateUser, async (req, res) => {
   const message = new Message({ message: req.body.message, user: req.user._id })
   try {
