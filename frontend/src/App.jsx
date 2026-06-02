@@ -65,7 +65,7 @@ export const App = () => {
           mode={modal}
           onClose={() => setModal(null)}
           onSuccess={(data) => { 
-            console.log("User logged in:", data)
+            console.log("User logged in:", data) // Övriga findings: Visar AccessToken via dev tools
             setUser(data) 
             setModal(null) 
           }}
