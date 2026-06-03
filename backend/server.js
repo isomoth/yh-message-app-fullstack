@@ -124,7 +124,7 @@ app.post("/login", async (req, res) => {
     })
   }
 })
-// SR-10: Kravet uppfylls. Validering för databasen via server.js (backend)
+
 const isValidId = (id) => mongoose.Types.ObjectId.isValid(id)
 
 app.get("/messages", async (req, res) => {
