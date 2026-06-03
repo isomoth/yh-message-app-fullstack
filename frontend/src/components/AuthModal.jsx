@@ -31,8 +31,7 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
       console.log("Auth successful:", data) // Övriga findings: Visar AccessToken via dev tools
       onSuccess(data)
     } catch (err) {
-      // SR-4: Visar känslig data i felmeddelandet, visas genom dev tools
-      console.log(err)
+      // SR-4: Tog bort console.log som visade "Password is incorrect" i felmeddelandet via dev tools.
       setError(err.message)
     } finally {
       setSubmitting(false)
@@ -91,8 +90,8 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
           // Övriga findings: Visar lösenordet i klartext i HTML via dev tools
           autoComplete={mode === "register" ? "new-password" : "current-password"}
         />
-
-        {error && <p className="error">{error}</p>} {/* Övriga findings: Visar "Password is incorrect" på frontend */}
+        {/* SR-4: Nu är felmeddelandet mer generiskt och visar inte "Password is incorrect"  */}
+        {error && <p className="error">{error}</p>} 
 
         <button
           type="submit"

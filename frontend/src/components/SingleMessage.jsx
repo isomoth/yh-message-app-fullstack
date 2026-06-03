@@ -36,7 +36,7 @@ export const SingleMessage = ({ message, user, onUnauthorized, fetchPosts }) => 
           "Content-Type": "application/json",
           Authorization: `Bearer ${user?.response?.accessToken}`,
         },
-        body: JSON.stringify({ editedMessage: editedText }),
+         body: JSON.stringify({ editedMessage: editedText }),
       })
 
       if (res.status === 401) {
@@ -47,8 +47,8 @@ export const SingleMessage = ({ message, user, onUnauthorized, fetchPosts }) => 
       const data = await res.json()
 
       if (data.error) {
-        console.log(data) // SR-4: Visar känslig serverresponse, behöver reproduceras
-        setEditError(data.error) // SR-4: Visar känslig data på felmeddelandet, behöver reproduceras
+        // SR-4: Tog bort console.log som visade detaljer kring vad som gick fel hos servern
+        setEditError('Something went wrong, please try again.') // SR-4: Meddelandet är nu generiskt, visar inga detaljer från backend
         return
       }
 
