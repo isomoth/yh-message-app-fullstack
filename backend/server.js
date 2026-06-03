@@ -93,8 +93,8 @@ app.post("/login", async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({
         success: false,
-        // SR-4
-        message: "Password is incorrect",
+        // SR-4: Meddelandet är nu generiskt och avslöjar inte vilken inloggningsuppgift som är fel
+        message: "Username or password is incorrect",
         response: null,
       })
     }
