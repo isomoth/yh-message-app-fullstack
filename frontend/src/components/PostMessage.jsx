@@ -20,6 +20,7 @@ export const PostMessage = ({ newMessage, fetchPosts, user, onUnauthorized }) =>
         body: JSON.stringify({ message: newPost }),
       })
 
+      // Övriga findings: Token visas i dev tools när man skickar ett meddelande
       console.log("Token being sent:", user?.response?.accessToken)
 
       if (res.status === 401) {
@@ -31,8 +32,8 @@ export const PostMessage = ({ newMessage, fetchPosts, user, onUnauthorized }) =>
       const data = await res.json()
 
       if (data.message && !data._id) {
-        console.log(data)
-        setErrorMessage(data.message)
+        console.log(data) // Övriga findings: Visar känslig server-respons, behöver reproduceras
+        setErrorMessage(data.message) // SR-4: Visar valideringsdetaljer, behöver reproduceras
         setSubmitting(false)
         return
       }
@@ -57,6 +58,7 @@ export const PostMessage = ({ newMessage, fetchPosts, user, onUnauthorized }) =>
       <p>What's making you happy right now?</p>
       <form id="post-form" onSubmit={handleFormSubmit}>
         <textarea
+        // SR 1 - 3
           id="post-textarea"
           rows="3"
           placeholder="Write your message here..."

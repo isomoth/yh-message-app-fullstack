@@ -28,10 +28,10 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
 
       const data = await res.json()
       if (!res.ok) throw new Error(data.message || "Something went wrong")
-
-      console.log("Auth successful:", data)
+      console.log("Auth successful:", data) // Övriga findings: Visar AccessToken via dev tools
       onSuccess(data)
     } catch (err) {
+      // SR-4: Visar känslig data i felmeddelandet, visas genom dev tools
       console.log(err)
       setError(err.message)
     } finally {
@@ -51,6 +51,7 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
         {mode === "register" ? (
           <>
             <input
+            // SR-1 - 3
               type="text"
               placeholder="Username"
               value={username}
@@ -59,6 +60,7 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
               autoComplete="username"
             />
             <input
+            // SR-1 - 3
               type="email"
               placeholder="Email"
               value={email}
@@ -69,6 +71,7 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
           </>
         ) : (
           <input
+          // SR-1 - 3
             type="text"
             placeholder="Username or email"
             value={login}
@@ -79,15 +82,17 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
         )}
 
         <input
+        // SR-1 - 3
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           name="password"
+          // Övriga findings: Visar lösenordet i klartext i HTML via dev tools
           autoComplete={mode === "register" ? "new-password" : "current-password"}
         />
 
-        {error && <p className="error">{error}</p>}
+        {error && <p className="error">{error}</p>} {/* Övriga findings: Visar "Password is incorrect" på frontend */}
 
         <button
           type="submit"

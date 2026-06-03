@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 
 const messageSchema = new mongoose.Schema({
   message: {
+    // SR-1 , maxlenght och minlengt och trimma mellanslag
     type: String,
     required: true
   },

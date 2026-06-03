@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 import { User } from "../models/User.js"
-
+// SR-8: Kravet uppfylls
 export const authenticateUser = async (req, res, next) => {
   const token = req.headers.authorization?.replace("Bearer ", "")
   if (!token) {
