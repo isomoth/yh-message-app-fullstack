@@ -28,11 +28,14 @@ app.get("/", (req, res) => {
 app.post("/register", async (req, res) => {
   try {
     const { email, password, username } = req.body
-    // SR 1 - Max längd
+   
     if (!username || username.trim().length < 2) {
       return res.status(400).json({ success: false, message: "Username must be at least 2 characters" })
     }
-
+    // sr-1: maxlängd tillagd och felmeddelande för detta
+if (username.trim().length > 50) {
+      return res.status(400).json({ success: false, message: "Username must be 50 characters or less" })
+    }
     const existingUser = await User.findOne({
       $or: [{ email: email.toLowerCase() }, { username: username.trim() }]
     })

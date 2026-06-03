@@ -51,33 +51,39 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
         {mode === "register" ? (
           <>
             <input
-            // SR-1 - 3
+            // SR-2 ingen åtgärd behövd
               type="text"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               name="username"
               autoComplete="username"
+              // maxlength är satt till 25, SR-1
+              maxLength={25}
             />
             <input
-            // SR-1 - 3
+            // SR-2 ingen åtgärd behövd
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               name="email"
               autoComplete="email"
+              // maxlength är satt till 254, SR-1
+              maxLength={254}
             />
           </>
         ) : (
           <input
-          // SR-1 - 3
+          // SR-2 ingen åtgärd behövd
             type="text"
             placeholder="Username or email"
             value={login}
             onChange={(e) => setLogin(e.target.value)}
             name="login"
             autoComplete="username"
+            // SR-1, maxLength satt till 254 för att täcka både email och username
+            maxLength={254} 
           />
         )}
 
@@ -87,6 +93,8 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          // SR-1, maxLength satt till 128 vilket är en vanlig maxlängd för lösenord
+          maxLength={128} 
           name="password"
           // Övriga findings: Visar lösenordet i klartext i HTML via dev tools
           autoComplete={mode === "register" ? "new-password" : "current-password"}
