@@ -28,12 +28,19 @@ app.get("/", (req, res) => {
 app.post("/register", async (req, res) => {
   try {
     const { email, password, username } = req.body
-   
+    // SR-3: Validering av användarnamn, för att säkerställa att det inte innehåller otillåtna tecken. Evt. regex eller liknande. Användarnamn behöver inte innehålla htmltaggar och specialtecken som <, >, &, etc.
+    // const usernameRegex = /^[a-zA-Z0-9_-]+$/
+    // if (!usernameRegex.test(username)) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Username contains invalid characters"
+    //   })
+    // }
     if (!username || username.trim().length < 2) {
       return res.status(400).json({ success: false, message: "Username must be at least 2 characters" })
     }
     // sr-1: maxlängd tillagd och felmeddelande för detta
-if (username.trim().length > 50) {
+    if (username.trim().length > 50) {
       return res.status(400).json({ success: false, message: "Username must be 50 characters or less" })
     }
     const existingUser = await User.findOne({
@@ -47,7 +54,7 @@ if (username.trim().length > 50) {
         message: `A user with this ${field} already exists`
       })
     }
-// SR-9. Kravet uppfylls, lösenord sparas inte i klartext
+    // SR-9. Kravet uppfylls, lösenord sparas inte i klartext
     const hashedPassword = await bcrypt.hash(password, 10)
     const user = new User({ username: username.trim(), email, password: hashedPassword })
     await user.save()

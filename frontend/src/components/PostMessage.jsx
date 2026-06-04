@@ -43,8 +43,10 @@ export const PostMessage = ({ newMessage, fetchPosts, user, onUnauthorized }) =>
       setErrorMessage("")
       setSubmitting(false)
       await fetchPosts()
-    } catch (error) {
-      console.error(error)
+    } catch {
+
+       setErrorMessage("Something went wrong")
+ 
       setSubmitting(false)
     }
   }
@@ -57,9 +59,8 @@ export const PostMessage = ({ newMessage, fetchPosts, user, onUnauthorized }) =>
     <div id="post-form-wrapper" className="post-wrapper">
       <p>What's making you happy right now?</p>
       <form id="post-form" onSubmit={handleFormSubmit}>
-        // SR-2 textarea är redan sträng som standard, ingen åtgärd behövs
+      //sr-2 string räcker för datatyper- ingen åtgärd
         <textarea
-        // SR 1 - 3
           id="post-textarea"
           rows="3"
           placeholder="Write your message here..."

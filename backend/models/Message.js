@@ -2,10 +2,10 @@ import mongoose from "mongoose"
 
 const messageSchema = new mongoose.Schema({
   message: {
-    // SR-2, string räcker för datatyper, ingen åtgärd behövs
+   //SR-2 string räcker för datatyper- ingen åtgärd
     type: String,
     required: true
-     // SR-1 , maxlenght,minlengt och trimma mellanslag tillagd
+     // SR-1, maxlenght,minlengt och trimma mellanslag tillagd
     minLength: 1,
     maxLength: 500,
     trim: true,

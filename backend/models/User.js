@@ -2,8 +2,7 @@ import mongoose from "mongoose"
 
 const userSchema = new mongoose.Schema({
   username: {
-    
-    //sr-2 string räcker för datatyper ingen åtgärd behöv
+    //sr-2 string räcker för datatyper- ingen åtgärd
     type: String,
     required: true,
     unique: true,
@@ -11,12 +10,11 @@ const userSchema = new mongoose.Schema({
     // SR-1: maxlength tillagd
     maxlength: 50,
     trim: true,
-    // SR-3: regex för att tillåta endast alfanumeriska tecken, understreck och bindestreck
-    match: /^[a-zA-Z0-9_-]+$/,
+    // SR-3: regex tillagd, för att tillåta endast alfanumeriska tecken, understreck och bindestreck, användarnamn behöver inte inhålla htmltaggar och specialtecken som <, >, &, etc.
+    match: /^[a-zA-Z0-9_-]+$/
   }, 
   email: {
-    // SR-3  se ovan
-    //sr-2 string räcker för datatyper ingen åtgärd behövs
+   //sr-2 string räcker för datatyper- ingen åtgärd 
     type: String,
     required: true,
     unique: true,
@@ -25,11 +23,9 @@ const userSchema = new mongoose.Schema({
     maxlength: 254, 
   },
   password: {
-    // SR-3 
-     //sr-2 string räcker för datatyper ingen åtgärd behöv
+     //sr-2 string räcker för datatyper- ingen åtgärd 
     type: String,
     required: true,
-    // SR-1: maxlength tillagd
     maxlength: 128,
   
   },

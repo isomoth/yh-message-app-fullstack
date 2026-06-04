@@ -51,7 +51,7 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
         {mode === "register" ? (
           <>
             <input
-            // SR-2 ingen åtgärd behövd
+            //sr-2 string räcker för datatyper- ingen åtgärd
               type="text"
               placeholder="Username"
               value={username}
@@ -62,7 +62,7 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
               maxLength={25}
             />
             <input
-            // SR-2 ingen åtgärd behövd
+           //sr-2 string räcker för datatyper- ingen åtgärd
               type="email"
               placeholder="Email"
               value={email}
@@ -75,7 +75,7 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
           </>
         ) : (
           <input
-          // SR-2 ingen åtgärd behövd
+          //sr-2 string räcker för datatyper- ingen åtgärd
             type="text"
             placeholder="Username or email"
             value={login}
