@@ -128,6 +128,7 @@ app.post("/login", async (req, res) => {
       },
     })
   } catch (error) {
+    // Övrig finding: Loggar felet internt på servern men skickar bara ett generiskt felmeddelande till klienten.
     console.error(error)
     res.status(500).json({
       success: false,
