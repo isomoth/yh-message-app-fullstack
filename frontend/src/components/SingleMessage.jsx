@@ -55,8 +55,11 @@ export const SingleMessage = ({ message, user, onUnauthorized, fetchPosts }) => 
       setIsEditing(false)
       setEditError("")
       await fetchPosts()
-    } catch (error) {
-      console.error(error)
+
+    // Visa endast generisk felmeddelande för att unvika exponering av känslig data
+    } catch {
+      setEditError("Ett fel inträffade. Försök igen senare.") // SR-4: Döljer känslig data i felmeddelandet, behöver reproduceras
+      
     }
   }
 
