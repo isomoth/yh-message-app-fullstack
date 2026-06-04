@@ -18,7 +18,7 @@ const PORT = process.env.PORT || "3000"
 const app = express()
 app.use(helmet())
 app.use(cors({
-  origin: "*",
+  origin: "*", //Övrig finding: CORS-policy är för generös, behövs ändras till att endast tillåta specifika domäner/frontend-origin
 }))
 app.use(express.json())
 
@@ -63,8 +63,8 @@ app.post("/register", async (req, res) => {
     const accessToken = jwt.sign(
       { userId: user._id, username: user.username },
       process.env.JWT_SECRET,
-      // Övrig finding: För lång expiration time
-      { expiresIn: "2h" }
+      // Övrig finding: Token-expiration är för lång, ändrat till 30 minuter
+      { expiresIn: "30m" }
     )
 
     res.status(201).json({
@@ -77,10 +77,11 @@ app.post("/register", async (req, res) => {
       },
     })
   } catch (error) {
+    // Övrig finding: Loggar felet internt på servern men skickar bara ett generiskt felmeddelande till klienten.
+    console.error(error)
     res.status(400).json({
       success: false,
       message: "Could not create user",
-      error: error,
     })
   }
 })
@@ -113,8 +114,8 @@ app.post("/login", async (req, res) => {
     const accessToken = jwt.sign(
       { userId: user._id, username: user.username },
       process.env.JWT_SECRET,
-      // För lång expiration time
-      { expiresIn: "2h" }
+      // Övrig finding: Token-expiration var för lång, ändrade till 30 minuter.
+      { expiresIn: "30m" }
     )
 
     res.json({
@@ -127,10 +128,10 @@ app.post("/login", async (req, res) => {
       },
     })
   } catch (error) {
+    console.error(error)
     res.status(500).json({
       success: false,
       message: "Something went wrong",
-      error: error,
     })
   }
 })
@@ -156,7 +157,9 @@ app.post("/messages", authenticateUser, async (req, res) => {
     const saved = await message.save()
     res.status(201).json(saved)
   } catch (err) {
-    res.status(400).json({ message: "Could not save message", errors: err.errors })
+    // Övrig finding: Tog bort intern valideringsinfo från klientsvaret för att inte läcka databasdetaljer.
+    console.error(err)
+    res.status(400).json({ message: "Could not save message" })
   }
 })
 
@@ -178,13 +181,16 @@ app.patch("/messages/:id", authenticateUser, async (req, res) => {
     res.status(400).json({ error: "Could not update message" })
   }
 })
-// SR-8: Kravet uppfylldes inte när det gäller att radera ett meddelande. Nu har vi lagt in authenticateUser, men det kvarstår att reproducera med vår egen instans
+// SR-8: Kravet uppfylldes inte när det gäller att radera ett meddelande. Nu har vi lagt in authenticateUser, men det kvarstår att reproducera med vår egen instans.
 app.delete("/messages/:id", authenticateUser, async (req, res) => {
   if (!isValidId(req.params.id)) return res.status(400).json({ error: "Invalid message ID" })
   try {
     const message = await Message.findById(req.params.id)
     if (!message) return res.status(404).json({ error: "Message not found" })
-    await message.deleteOne()
+    if (message.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: "You can only delete your own messages" })
+    }
+    await message.deleteOne() // Övrig finding: Nu kan inte en inloggad användare radera andras meddelanden - Endast ägaren kan nu radera sitt egna meddelande.
     res.status(204).send()
   } catch (error) {
     res.status(400).json({ error: "Could not delete message" })
