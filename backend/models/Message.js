@@ -2,9 +2,14 @@ import mongoose from "mongoose"
 
 const messageSchema = new mongoose.Schema({
   message: {
-    // SR-1 , maxlenght och minlengt och trimma mellanslag
+   //SR-2 string räcker för datatyper- ingen åtgärd
     type: String,
-    required: true
+    required: true,
+     // SR-1, maxlenght,minlengt och trimma mellanslag tillagd
+    minLength: 1,
+    maxLength: 500,
+    trim: true,
+
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

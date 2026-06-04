@@ -43,8 +43,10 @@ export const PostMessage = ({ newMessage, fetchPosts, user, onUnauthorized }) =>
       setErrorMessage("")
       setSubmitting(false)
       await fetchPosts()
-    } catch (error) {
-      console.error(error)
+    } catch {
+
+       setErrorMessage("Something went wrong")
+ 
       setSubmitting(false)
     }
   }
@@ -57,12 +59,14 @@ export const PostMessage = ({ newMessage, fetchPosts, user, onUnauthorized }) =>
     <div id="post-form-wrapper" className="post-wrapper">
       <p>What's making you happy right now?</p>
       <form id="post-form" onSubmit={handleFormSubmit}>
+      {/* sr-2 string räcker för datatyper- ingen åtgärd */}
         <textarea
-        // SR 1 - 3
           id="post-textarea"
           rows="3"
           placeholder="Write your message here..."
           value={newPost}
+          // SR-1: maxLength satt till 500 tecken
+          maxLength={500} 
           onChange={(e) => {
             setNewPost(e.target.value)
             setErrorMessage("")
