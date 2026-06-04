@@ -1,6 +1,5 @@
 # yh-message-app-fullstack
-<<<<<<< HEAD
 
-=======
 Carolina Hindocha
->>>>>>> main
+Josefine Lindgren
+Isabel Gonzalez

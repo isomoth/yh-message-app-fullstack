@@ -59,7 +59,7 @@ export const PostMessage = ({ newMessage, fetchPosts, user, onUnauthorized }) =>
     <div id="post-form-wrapper" className="post-wrapper">
       <p>What's making you happy right now?</p>
       <form id="post-form" onSubmit={handleFormSubmit}>
-      //sr-2 string räcker för datatyper- ingen åtgärd
+      {/* sr-2 string räcker för datatyper- ingen åtgärd */}
         <textarea
           id="post-textarea"
           rows="3"

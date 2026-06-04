@@ -55,8 +55,9 @@ export const SingleMessage = ({ message, user, onUnauthorized, fetchPosts }) => 
       setIsEditing(false)
       setEditError("")
       await fetchPosts()
-    } catch (error) {
-      console.error(error)
+    } catch {
+      // Visa endast generiskt felmeddelande för att undvika informationsläckage
+      setEditError("Something went wrong. Try again later.")
     }
   }
 
