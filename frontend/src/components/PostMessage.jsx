@@ -32,8 +32,8 @@ export const PostMessage = ({ newMessage, fetchPosts, user, onUnauthorized }) =>
       const data = await res.json()
 
       if (data.message && !data._id) {
-        console.log(data) // Övriga findings: Visar känslig server-respons, behöver reproduceras
-        setErrorMessage(data.message) // SR-4: Visar valideringsdetaljer, behöver reproduceras
+        // Övriga findings: Tog bort console.log som visade message-objekt inkl. användar- och meddelandeId
+        setErrorMessage(data.message) // SR-4: Visar valideringsdetaljer, behöver reproduceras när vår instans är kopplad
         setSubmitting(false)
         return
       }
