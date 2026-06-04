@@ -28,7 +28,7 @@ export const AuthModal = ({ mode, onClose, onSuccess }) => {
 
       const data = await res.json()
       if (!res.ok) throw new Error(data.message || "Something went wrong")
-      console.log("Auth successful:", data) // Övriga findings: Visar AccessToken via dev tools
+      // Övrig finding: Tog bort console.log som visade AcessToken i dev tools, nu loggas inte auth-respons.
       onSuccess(data)
     } catch (err) {
       // SR-4: Tog bort console.log som visade "Password is incorrect" i felmeddelandet via dev tools.

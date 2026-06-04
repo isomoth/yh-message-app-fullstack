@@ -20,8 +20,7 @@ export const PostMessage = ({ newMessage, fetchPosts, user, onUnauthorized }) =>
         body: JSON.stringify({ message: newPost }),
       })
 
-      // Övriga findings: Token visas i dev tools när man skickar ett meddelande
-      console.log("Token being sent:", user?.response?.accessToken)
+      // Övrig finding: Tog bort console.log. Token visas inte längre i dev tools när meddelande skickas.
 
       if (res.status === 401) {
         onUnauthorized()
@@ -32,7 +31,7 @@ export const PostMessage = ({ newMessage, fetchPosts, user, onUnauthorized }) =>
       const data = await res.json()
 
       if (data.message && !data._id) {
-        // Övriga findings: Tog bort console.log som visade message-objekt inkl. användar- och meddelandeId
+        // Övrig finding: Tog bort console.log som visade message-objekt inkl. användar- och meddelandeId
         setErrorMessage(data.message) // SR-4: Visar valideringsdetaljer, behöver reproduceras när vår instans är kopplad
         setSubmitting(false)
         return

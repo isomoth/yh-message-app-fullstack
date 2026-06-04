@@ -65,7 +65,7 @@ export const App = () => {
           mode={modal}
           onClose={() => setModal(null)}
           onSuccess={(data) => { 
-            console.log("User logged in:", data) // Övriga findings: Visar AccessToken via dev tools
+            // Övrig finding: Tog bort console.log som visade AccessToken i dev tools. Nu loggas inte auth-responsen här heller.
             setUser(data) 
             setModal(null) 
           }}
