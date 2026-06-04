@@ -10,7 +10,8 @@ import { User } from "./models/User.js"
 import { authenticateUser } from "./middleware/auth.js"
 import "./config/db.js"
 import listEndpoints from "express-list-endpoints"
-
+// Antalet inloggningsförsök skulle behöva begränsas enligt våra övriga findings, men eftersom det kräver ett externt bibliotek (express-rate-limit) utgör detta en ny sårbarhet som vi skulle behöva hantera. Vi bestämde oss för att avstå ifrån det för tillfället. 
+ 
 if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET is not set in .env")
 
 const PORT = process.env.PORT || "3000"
@@ -123,7 +124,7 @@ app.post("/login", async (req, res) => {
     })
   }
 })
-// SR-10: Kravet uppfylls. Validering för databasen via server.js (backend)
+
 const isValidId = (id) => mongoose.Types.ObjectId.isValid(id)
 
 app.get("/messages", async (req, res) => {
@@ -167,8 +168,8 @@ app.patch("/messages/:id", authenticateUser, async (req, res) => {
     res.status(400).json({ error: "Could not update message" })
   }
 })
-// SR-8: Kravet uppfylls inte när det gäller att radera ett meddelande. Det går att göra oavsett om man är inloggad eller inte. 
-app.delete("/messages/:id", async (req, res) => {
+// SR-8: Kravet uppfylldes inte när det gäller att radera ett meddelande. Nu har vi lagt in authenticateUser, men det kvarstår att reproducera med vår egen instans
+app.delete("/messages/:id", authenticateUser, async (req, res) => {
   if (!isValidId(req.params.id)) return res.status(400).json({ error: "Invalid message ID" })
   try {
     const message = await Message.findById(req.params.id)
