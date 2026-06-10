@@ -11,7 +11,6 @@ module.exports = {
     '^.+\.[jt]sx?$': 'babel-jest'
   },
   
-  // Optional: Only needed if you have specific ESM packages to ignore
   transformIgnorePatterns: [
     "/node_modules/(?!(some-esm-package)/)" 
   ]

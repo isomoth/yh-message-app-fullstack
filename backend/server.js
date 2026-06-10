@@ -20,7 +20,7 @@ const ALLOWED_ORIGINS = "http://localhost:5500";
 // Konfiguration för express-rate-limit
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
-	limit: 10,
+	limit: 10, // Låg gräns för att undvika för många anrop till inloggningsförsök. Man skulle behöva skapa enskilda limiters för varje anrop för att undvika låga värden hos exempelvis app.get("/messages"...)
 	standardHeaders: 'draft-8', 
 	legacyHeaders: false,
 	ipv6Subnet: 56,
