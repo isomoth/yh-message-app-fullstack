@@ -11,7 +11,8 @@ import { authenticateUser } from "./middleware/auth.js"
 import "./config/db.js"
 import listEndpoints from "express-list-endpoints"
 import { rateLimit } from 'express-rate-limit'
-// Antalet inloggningsförsök skulle behöva begränsas enligt våra övriga findings, men eftersom det kräver ett externt bibliotek (express-rate-limit) utgör detta en ny sårbarhet som vi skulle behöva hantera. Vi bestämde oss för att avstå ifrån det för tillfället. 
+
+// Antalet inloggningsförsök behövde begränsas enligt våra övriga findings, vilket vi har hanterat genom express-rate-limit. 
 
 // Godkända domäner för CORS
 const ALLOWED_ORIGINS = "http://localhost:5500";
@@ -19,24 +20,21 @@ const ALLOWED_ORIGINS = "http://localhost:5500";
 // Konfiguration för express-rate-limit
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
-	limit: 10,
+	limit: 10, // Låg gräns för att undvika för många anrop till inloggningsförsök. Man skulle behöva skapa enskilda limiters för varje anrop för att undvika låga värden hos exempelvis app.get("/messages"...)
 	standardHeaders: 'draft-8', 
 	legacyHeaders: false,
 	ipv6Subnet: 56,
 })
 
-// Gäller till alla request
-app.use(limiter)
- 
 if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET is not set in .env")
 
 const PORT = process.env.PORT || "3000"
 const app = express()
 app.use(helmet())
 app.use(cors({
-  origin: ALLOWED_ORIGINS, //Övrig finding: CORS-policy är för generös, behövs ändras till att endast tillåta specifika domäner/frontend-origin
+  origin: ALLOWED_ORIGINS, //Övrig finding: CORS-policy var för generös, vi har ändrat det till att endast tillåta specifika domäner/frontend-origin
 }))
-app.use(express.json())
+app.use(express.json(), limiter)
 
 app.get("/", (req, res) => {
   res.send(listEndpoints(app))
