@@ -44,6 +44,7 @@ app.post("/register", async (req, res) => {
   try {
     const { email, password, username } = req.body
     // SR-3: Validering av användarnamn, för att säkerställa att det inte innehåller otillåtna tecken. Evt. regex eller liknande. Användarnamn behöver inte innehålla htmltaggar och specialtecken som <, >, &, etc.
+    // Möjlig lösning (kan testas med egen deployad backend/databas):
     // const usernameRegex = /^[a-zA-Z0-9_-]+$/
     // if (!usernameRegex.test(username)) {
     //   return res.status(400).json({
